@@ -75,7 +75,7 @@ async def check_websites_exists(urls) -> List[str]:
 def get_awesome_repo_list() -> str:
 
     url = "https://github.com/igorbarinov/awesome-data-engineering"
-    html = requests.get(url)
+    html = requests.get(url, timeout=60)
     soup = BeautifulSoup(html.text, "html.parser")
     # parse all links into a list starting with github.com
     links = [
