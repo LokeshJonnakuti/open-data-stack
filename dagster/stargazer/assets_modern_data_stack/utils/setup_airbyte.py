@@ -3,8 +3,6 @@
 A basic script that will create tables in the source postgres database, then automatically
 create an Airbyte Connection between the source database and destination database.
 """
-# pylint: disable=print-call
-import random
 from typing import Any, Dict, Mapping
 
 import numpy as np
@@ -15,6 +13,7 @@ from dagster_postgres.utils import get_conn_string
 import dagster._check as check
 
 from .constants import PG_DESTINATION_CONFIG, PG_SOURCE_CONFIG
+import secrets
 
 # configures the number of records for each table
 N_USERS = 100
@@ -132,7 +131,7 @@ def add_data():
     users = pd.DataFrame(
         {
             "user_id": range(N_USERS),
-            "is_bot": [random.choice([True, False]) for _ in range(N_USERS)],
+            "is_bot": [secrets.choice([True, False]) for _ in range(N_USERS)],
         }
     )
 
@@ -141,7 +140,7 @@ def add_data():
 
     orders = pd.DataFrame(
         {
-            "user_id": [random.randint(0, N_USERS) for _ in range(N_ORDERS)],
+            "user_id": [secrets.SystemRandom().randint(0, N_USERS) for _ in range(N_ORDERS)],
             "order_time": _random_dates(),
             "order_value": np.random.normal(loc=100.0, scale=15.0, size=N_ORDERS),
         }
